@@ -24,7 +24,11 @@ class RoleController extends Controller
                 'id' => $role->id,
                 'name' => $role->name,
                 'created_at' => $role->created_at->format('Y/m/d H:i:s'),
-
+                'permissions' => $role->permissions->map(fn($permission) => [
+                    'id' => $permission->id,
+                    'name' => $permission->name,
+                ]),
+                'permissions_pluck' => $role->permissions->pluck('name'),
             ])
         ];
 
@@ -50,9 +54,16 @@ class RoleController extends Controller
             $role->syncPermissions($request->permissions);
 
             $data = [
-                'id' => $role->id,
-                'name' => $role->name,
-                'created_at' => $role->created_at->format('Y-m-d H:i:s'),
+                'role' => [
+                    'id' => $role->id,
+                    'name' => $role->name,
+                    'created_at' => $role->created_at->format('Y/m/d H:i:s'),
+                    'permissions' => $role->permissions->map(fn($permission) => [
+                        'id' => $permission->id,
+                        'name' => $permission->name,
+                    ]),
+                    'permissions_pluck' => $role->permissions->pluck('name'),
+                ]
             ];
 
             return $this->successResponse('Rol creado correctamente', $data, 201);
@@ -95,9 +106,16 @@ class RoleController extends Controller
             $role->syncPermissions($request->permissions);
 
             $data = [
-                'id' => $role->id,
-                'name' => $role->name,
-                'updated_at' => $role->updated_at->format('Y-m-d H:i:s'),
+                'role' => [
+                    'id' => $role->id,
+                    'name' => $role->name,
+                    'created_at' => $role->created_at->format('Y/m/d H:i:s'),
+                    'permissions' => $role->permissions->map(fn($permission) => [
+                        'id' => $permission->id,
+                        'name' => $permission->name,
+                    ]),
+                    'permissions_pluck' => $role->permissions->pluck('name'),
+                ]
             ];
 
             return $this->successResponse('Rol actualizado correctamente', $data);
