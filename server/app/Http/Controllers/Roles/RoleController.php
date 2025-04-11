@@ -47,12 +47,13 @@ class RoleController extends Controller
                 'guard_name' => 'api',
             ]);
 
+            $role->syncPermissions($request->permissions);
+
             $data = [
                 'id' => $role->id,
                 'name' => $role->name,
                 'created_at' => $role->created_at->format('Y-m-d H:i:s'),
             ];
-
 
             return $this->successResponse('Rol creado correctamente', $data, 201);
 
@@ -90,6 +91,8 @@ class RoleController extends Controller
             $role->update([
                 'name' => $request->name,
             ]);
+
+            $role->syncPermissions($request->permissions);
 
             $data = [
                 'id' => $role->id,
