@@ -41,7 +41,8 @@ class UserController extends Controller
                 'number_document' => $user->number_document,
                 'gender' => $user->gender,
                 'phone' => $user->phone,
-                'created_at' => $user->created_at?->format('Y-m-d  A H:i'),
+                'state' => $user->state,
+                'created_at' => $user->created_at?->format('Y-m-d H:i A'),
             ])
         ];
 
@@ -64,7 +65,7 @@ class UserController extends Controller
             'phone' => 'nullable|string|max:255',
             'type_document' => 'required|string|max:255',
             'number_document' => 'required|numeric',
-            'gender' => 'required|in:1,2',
+            'gender' => 'required|in:M,N',
         ]);
 
         try {
@@ -103,7 +104,8 @@ class UserController extends Controller
                     'number_document' => $user->number_document,
                     'gender' => $user->gender,
                     'phone' => $user->phone,
-                    'created_at' => $user->created_at?->format('Y-m-d  A H:i'),
+                    'state' => $user->state,
+                    'created_at' => $user->created_at?->format('Y-m-d H:i A'),
                 ])
             ];
 
@@ -144,7 +146,7 @@ class UserController extends Controller
             'phone' => 'nullable|string|max:255',
             'type_document' => 'nullable|string|max:255',
             'number_document' => 'nullable|numeric',
-            'gender' => 'nullable|in:1,2',
+            'gender' => 'nullable|in:M,F',
         ]);
 
         try {
@@ -165,7 +167,7 @@ class UserController extends Controller
                 $request->merge(['password' => bcrypt($request->password)]);
             }
 
-            $user ->update($request->all());
+            $user->update($request->all());
             if ($request->role_id != $user->role_id) {
                 // Eliminar rol anterior
                 $role_old = Role::findOrFail($request->role_id);
@@ -196,7 +198,8 @@ class UserController extends Controller
                     'number_document' => $user->number_document,
                     'gender' => $user->gender,
                     'phone' => $user->phone,
-                    'created_at' => $user->created_at?->format('Y-m-d  A H:i'),
+                    'state' => $user->state,
+                    'created_at' => $user->created_at?->format('Y-m-d H:i A'),
                 ])
             ];
 
