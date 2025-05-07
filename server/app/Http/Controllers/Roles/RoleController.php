@@ -85,15 +85,6 @@ class RoleController extends Controller
 
         $role = Role::findOrFail($id);
 
-        $request->validate([
-            'name' => [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique('roles', 'name')->ignore($role->id),
-            ],
-        ]);
-
         try {
             $role->update([
                 'name' => $request->name,

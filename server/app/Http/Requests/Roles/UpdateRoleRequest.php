@@ -4,7 +4,7 @@ namespace App\Http\Requests\Roles;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRoleRequest extends FormRequest
+class UpdateRoleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,14 +22,25 @@ class StoreRoleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:50|unique:roles,name',
-            'permissions' => 'array',
-            'permissions.*' => 'string|exists:permissions,name',
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                'unique:roles,name,' . $this->route('role')->id,
+            ],
+            'permissions' => [
+                'required',
+                'array',
+            ],
+            'permissions.*' => [
+                'string',
+                'exists:permissions,name',
+            ],
         ];
     }
 
     /**
-     * Prepare the data for validation. 
+     * Prepare the data for validation.
      * This method is called before the validation rules are applied.
      * You can use it to modify the input data.
      * @return void
@@ -55,7 +66,4 @@ class StoreRoleRequest extends FormRequest
             'permissions.*.exists' => 'Alguno de los permisos seleccionados no es válido.',
         ];
     }
-
 }
-
-
